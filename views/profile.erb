@@ -1,0 +1,14 @@
+<h1>THIS is my profile</h1>
+<div class="information">
+  <%= %>
+<% if flash[:notice] %>
+  <div class="flash notice">
+    <% puts "this is working"%>
+    <%=flash[:notice] %>
+  </div>
+<% end %>
+<% puts @user %>
+<h3>username: <%=@user.username %> </h3>
+<!-- <h3>age: <%= @user.age %></h3> -->
+
+</div>

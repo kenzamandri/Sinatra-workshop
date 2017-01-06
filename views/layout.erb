@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>Micro-Blogging App</title>
+  </head>
+  <body>
+
+            <% if flash[:notice] %>
+              <div class="flash notice">
+                <%=flash[:notice] %>
+              </div>
+            <% end %>
+
+<h1>THIS IS MBA</h1>
+
+<%= yield %>
+<script src="/JS/index.js" charset="utf-8"></script>
+  </body>
+</html>
