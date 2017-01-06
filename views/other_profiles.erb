@@ -1,0 +1,21 @@
+<h1>other profiles page</h1>
+<div class="searchbar">
+  <form method="POST" action="/files">
+    <label for="username">Search Username:</label>
+    <input type="text" name="username">
+  </form>
+    <input type="submit">
+
+</div>
+<div class="otherprofiles">
+
+<% if @user_posts %>
+    <h3> Here are their posts:</h3>
+      <% @user_posts.each do |post|%>
+        <h3>
+            <%= post.text %>
+        </h3>
+        <% end%>
+    <% end%>
+
+</div>

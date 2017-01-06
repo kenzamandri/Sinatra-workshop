@@ -1,14 +1,23 @@
 <h1>THIS is my profile</h1>
 <div class="information">
-  <%= %>
-<% if flash[:notice] %>
-  <div class="flash notice">
-    <% puts "this is working"%>
-    <%=flash[:notice] %>
-  </div>
-<% end %>
-<% puts @user %>
-<h3>username: <%=@user.username %> </h3>
-<!-- <h3>age: <%= @user.age %></h3> -->
 
+  <h3>Username: <%= @user.username%></h3>
+  <h3>Age: <%= @user.age%></h3>
+</div>
+
+<div class="postings">
+  <form method="POST" action="/profile">
+    <label for="text">POST:</label>
+    <input type="text" name="text">
+  </form>
+    <input type="submit">
+</div>
+
+<div class="postingstext">
+  <h3> Here are my posts:</h3>
+    <% @user_posts.each do |post|%>
+      <h3>
+          <%= post.text %>
+      </h3>
+      <% end%>
 </div>
