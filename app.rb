@@ -3,6 +3,7 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require './models'
 
+
 # flash stuff
 require 'bundler/setup'
 require 'sinatra/flash'
@@ -12,9 +13,25 @@ set :database, "sqlite3:sinatra_ar_exercise.sqlite3"
 
 set :sessions, true
 
-###########ROUTES#############################################################
+###########Associate the files #############################################################
+class Post
+    belongs_to  :user
+end
+
+class User
+  has_many :posts
+end
+
+class Post
+    belongs_to  :profile
+end
+
+class Profile
+  has_many :posts
+end
 
 
+  ###########ROUTES#############################################################
 
 get '/' do
 "HALLO"
@@ -32,28 +49,31 @@ end
 
 
 
-get '/otherprofiles' do
+get '/other_profiles' do
   puts params
-  @username = params[:username]
-  @user_posts = User.where(username: params[:username]).posts
-
-  # session[:user_id] = @user.id
-  # @user_search = User.find(@user.id).posts
-  # puts @user_search.inspect
-
   erb :other_profiles
 end
 
 
-post '/files' do
+post '/other_profiles' do
+  puts  "other posts"
+  puts params.inspect
+  @user-posts = User.where(username: params[:username]).first
+  puts @user_posts
+  @user_posts = Post.find(User[:profile_id])
+  puts @user_posts.inspect
+  if User[profile_id]
+    @post = Post.find(User[:post_id])
+    puts @post
+  end
+
+
   # @user = User.where(username: params[:username]).first
-  # puts @user
+  # @post_id = @user_id
+  # @user_posts = User.find(session[:user_id]).posts
+  # puts @user_posts.inspect
 
-
-  # redirect to ("/otherprofiles?key=#@user_search")
-
-  @username = params[:username]
-  redirect to ("/otherprofiles?key=#@username")
+  redirect to ("/other_profiles?key=#@username")
 
 end
 
@@ -101,16 +121,17 @@ get '/profile' do
   puts @user
   @user_posts = User.find(session[:user_id]).posts
   puts @user_posts.inspect
-  # if session[:post_id]
-  #   @post = Post.find(session[:post_id])
-  #   puts @post
-  # end
+  if session[:post_id]
+    @post = Post.find(session[:post_id])
+    puts @post
+  end
   erb :profile
 end
 post '/profile' do
   puts params.inspect
   @post = Post.create(text: params[:text], user_id: session[:user_id], profile_id: session[:profile_id])
   puts @post
+  puts @user["username"]
   session[:post_id] = @post.id
   redirect '/profile'
 end
@@ -121,6 +142,7 @@ get '/logout' do
   session.clear
   "log out "
 end
+
 def current_user
   if session[:user_id]
     @current_user = User.find(session[:user_id])
