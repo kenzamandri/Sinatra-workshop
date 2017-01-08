@@ -58,14 +58,14 @@ end
 post '/other_profiles' do
   puts  "other posts"
   puts params.inspect
-  @user-posts = User.where(username: params[:username]).first
+  @user = User.where(username: params[:username]).first
   puts @user_posts
-  @user_posts = Post.find(User[:profile_id])
+  @user_posts = @user.posts
   puts @user_posts.inspect
-  if User[profile_id]
-    @post = Post.find(User[:post_id])
-    puts @post
-  end
+  # if User[:profile_id]
+  #   @post = Post.find(User[:post_id])
+  #   puts @post
+
 
 
   # @user = User.where(username: params[:username]).first
@@ -73,8 +73,9 @@ post '/other_profiles' do
   # @user_posts = User.find(session[:user_id]).posts
   # puts @user_posts.inspect
 
-  redirect to ("/other_profiles?key=#@username")
+  # redirect to ("/other_profiles?key=#@username")
 
+  erb :other_profiles
 end
 
 
@@ -125,23 +126,49 @@ get '/profile' do
     @post = Post.find(session[:post_id])
     puts @post
   end
+
+
   erb :profile
 end
-post '/profile' do
+
+post '/profile/new' do
   puts params.inspect
-  @post = Post.create(text: params[:text], user_id: session[:user_id], profile_id: session[:profile_id])
-  puts @post
-  puts @user["username"]
+  @post = Post.new(text: params[:text], user_id: session[:user_id], profile_id: session[:profile_id])
+  # puts @post
+  @current_user = User.find(session[:user_id])
+  @post.user = @current_user
+  @post.save
+
+  # puts @user["username"]
   session[:post_id] = @post.id
   redirect '/profile'
 end
 
+post '/profile/edit' do
+  puts params
+  @user = User.find(session[:user_id])
+  params.each do |key,value|
+    if value != ''
+          @user.update(key => value)
+    end
+  end
+
+  redirect '/profile'
+end
+
+get '/profile/delete' do
+  puts params
+  @user = User.find(session[:user_id])
+  @user.destroy
+  redirect '/logout'
+end
 
 
 get '/logout' do
   session.clear
   "log out "
 end
+
 
 def current_user
   if session[:user_id]

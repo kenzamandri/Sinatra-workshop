@@ -6,13 +6,13 @@
 </div>
 
 <div class="postings">
-  <form method="POST" action="/profile">
+  <form method="POST" action="/profile/new">
     <label for="text">POST:</label>
     <input type="text" name="text">
 
     <input type="submit">
+  </form>
 </div>
-</form>
 
 <div class="postingstext">
   <h3> Here are my posts:</h3>
@@ -21,4 +21,42 @@
           <%= post.text %>
       </h3>
       <% end%>
+</div>
+
+<div class="update">
+  <form method="POST" action="/profile/edit">
+    <label for="fname">First Name:</label>
+    <input type="text" name="fname">
+
+    <br><br>
+
+    <label for="lname">Last Name:</label>
+    <input type="text" name="lname">
+
+    <br><br>
+
+    <label for="username">Username:</label>
+    <input type="text" name="username">
+
+    <br><br>
+
+    <label for="age">Age:</label>
+    <input type="text" name="age">
+
+    <br><br>
+
+    <label for="password">Choose a Password:</label>
+    <input type="text" name="password">
+
+    <br><br><br>
+
+    <input type="submit">
+  </form>
+</div>
+
+<div class="delete">
+
+      <a href="/profile/delete">Delete</a>
+
+
 </div>

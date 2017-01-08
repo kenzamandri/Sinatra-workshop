@@ -1,1 +1,7 @@
 <h1>This is homepage</h1>
+
+<% User.all.each do |user| %>
+<%user.posts.each do |posting| %>
+  <%= posting.text %><br>
+      <% end%>
+  <% end %>
