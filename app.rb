@@ -38,12 +38,12 @@ get '/' do
 end
 
 get '/homepage' do
-  if current_user
-    puts "CURRENT USER"
-    flash[:notice] = "Welcome, #{@current_user.fname}."
-  else
-    puts "SUCCESS"
-  end
+  # if current_user
+  #   puts "CURRENT USER"
+  #   flash[:notice] = "Welcome, #{@current_user.fname}."
+  # else
+  #   puts "SUCCESS"
+  # end
   erb :homepage
 end
 
@@ -84,7 +84,10 @@ post '/sign-in' do
   puts params.inspect
   @user = User.where(username: params[:username]).first
   puts @user
-
+    if @user.blank?
+      flash[:notice] = "FAIL"
+      return redirect '/sign-in'
+    end
     if @user.password == params[:password]
       session[:user_id] = @user.id
       flash[:notice] = "Success! you signed-in!"
@@ -113,10 +116,10 @@ get '/profile' do
   puts @user
   @user_posts = User.find(session[:user_id]).posts
   puts @user_posts.inspect
-  if session[:post_id]
-    @post = Post.find(session[:post_id])
-    puts @post
-  end
+  # if session[:post_id]
+  #   @post = Post.find(session[:post_id])
+  #   puts @post
+  # end
 
 
   erb :profile
@@ -154,6 +157,37 @@ get '/profile/delete' do
   redirect '/homepage'
 end
 
+get '/posts/:id/edit-post' do
+  @post =Post.find(params[:id])
+  @text = "Edit Text"
+  erb :edit_post
+end
+post '/update-posts/:id' do
+  @posts =Post.find(params[:id])
+  if params[:text]
+    @posts.update(text: params[:text])
+  end
+  redirect 'profile'
+end
+
+# post '/profile/edit-post' do
+#   @post = Post.find(session[:post_id])
+#   params.each do |key,value|
+#     if value != ''
+#           @post.update(key => value)
+#     end
+#   end
+#
+#   redirect '/profile'
+# end
+
+post '/profile/delete-post/:id' do
+  puts params[:id]
+    @post = Post.find(params[:id])
+    @post.delete
+    redirect '/profile'
+
+end
 
 get '/logout' do
   session.clear

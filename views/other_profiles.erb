@@ -1,15 +1,23 @@
-<h1>other profiles page</h1>
+<h1>Find Other Profile Posts:</h1>
 <div class="searchbar">
   <form method="POST" action="/other_profiles">
     <label for="username">Search Username:</label>
     <input type="text" name="username">
 
+    <!-- <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+      Submit
+    </button> -->
     <input type="submit">
   </form>
 
 </div>
 <div class="otherprofiles">
 
+
+<% if @user %>
+    <h3>Username: <%= @user.username%></h3>
+    <h3>Age: <%= @user.age%></h3>
+<% end%>
 
 <% if @user_posts %>
     <h3> Here are their posts:</h3>

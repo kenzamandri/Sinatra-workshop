@@ -1,0 +1,13 @@
+<form method="POST" class="" action="/update-posts/<%= @post.id%>">
+  <label for="text">Post:</label>
+  <input type="text" name="text" value="">
+
+  <input type="submit" name="" value="submit">
+</form>
+
+
+
+
+<form method="POST" action="/profile/delete-post/<%= @post.id %>">
+  <input type="submit" name="" value="delete">
+</form>

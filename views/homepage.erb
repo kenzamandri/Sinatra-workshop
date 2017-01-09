@@ -1,7 +1,21 @@
-<h1>This is homepage</h1>
 
-<% User.all.each do |user| %>
-<%user.posts.each do |posting| %>
-  <%= posting.text %><br>
-      <% end%>
-  <% end %>
+<center>
+  <h1 class='information'>Here are the latests posts: </h1>
+
+      <% User.all.each do |user| %>
+          <div class="bgcolor well well-sm">
+        <!-- <h3 class="panel-title"> -->
+          <strong id= "bgcolor">Posted by: <%= user.username %></strong>
+        <!-- </h3> -->
+          </div>
+          <%user.posts.each do |posting| %>
+          <div class="well well-sm">
+            <%= posting.text %>
+          </div> 
+
+            <% end%>
+        <% end %>
+
+      <!-- </div> <br> -->
+    <!-- </div> -->
+</center>
