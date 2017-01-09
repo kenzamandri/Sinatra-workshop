@@ -62,19 +62,6 @@ post '/other_profiles' do
   puts @user_posts
   @user_posts = @user.posts
   puts @user_posts.inspect
-  # if User[:profile_id]
-  #   @post = Post.find(User[:post_id])
-  #   puts @post
-
-
-
-  # @user = User.where(username: params[:username]).first
-  # @post_id = @user_id
-  # @user_posts = User.find(session[:user_id]).posts
-  # puts @user_posts.inspect
-
-  # redirect to ("/other_profiles?key=#@username")
-
   erb :other_profiles
 end
 
@@ -86,6 +73,7 @@ end
 post '/sign-up' do
   puts params.inspect
   @user = User.create(params)
+  redirect '/sign-in'
 end
 
 get '/sign-in' do
@@ -111,13 +99,16 @@ post '/sign-in' do
     @profile =Profile.create(username: params[:username], user_id: session[:user_id])
     puts @profile
         session[:profile_id] = @profile.id
-
+        redirect '/profile'
 
 end
 
 
 get '/profile' do
   puts params.inspect
+  if session[:user_id] == nil
+    redirect '/sign-in'
+  end
   @user = User.find(session[:user_id])
   puts @user
   @user_posts = User.find(session[:user_id]).posts
@@ -160,13 +151,14 @@ get '/profile/delete' do
   puts params
   @user = User.find(session[:user_id])
   @user.destroy
-  redirect '/logout'
+  redirect '/homepage'
 end
 
 
 get '/logout' do
   session.clear
   "log out "
+  redirect '/homepage'
 end
 
 
